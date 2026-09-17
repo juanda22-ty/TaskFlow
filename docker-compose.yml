@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # 1. BASE DE DATOS MONGODB
+  mongoserver:
+    image: mongo:6.0
+    container_name: taskflow_mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db # Guarda los datos en tu disco duro para no perderlos si se apaga
+    networks:
+      - taskflow_network
+
+  # 2. SERVIDOR REDIS (Cola y Eventos)
+  redisserver:
+    image: redis:7.0-alpine
+    container_name: taskflow_redis
+    ports:
+      - "6380:6379"
+    networks:
+      - taskflow_network
+
+  # 3. BACKEND (Express + Socket.IO)
+  backend:
+    build:
+      context: ./backend # Le dice a Docker que busque el Dockerfile en la carpeta backend
+    container_name: taskflow_backend
+    ports:
+      - "3000:3000"
+    environment: # Sobrescribe el .env para usar las redes internas de Docker
+      - PORT=3000
+      - MONGO_URI=mongodb://mongoserver:27017/taskflow
+      - REDIS_HOST=redisserver
+      - REDIS_PORT=6379
+    depends_on:
+      - mongoserver
+      - redisserver
+    networks:
+      - taskflow_network
+
+  # 4. WORKER (Proceso en segundo plano)
+  worker:
+    build:
+      context: ./worker # Le dice a Docker que busque el Dockerfile en la carpeta worker
+    container_name: taskflow_worker
+    environment:
+      - MONGO_URI=mongodb://mongoserver:27017/taskflow
+      - REDIS_HOST=redisserver
+      - REDIS_PORT=6379
+    depends_on:
+      - mongoserver
+      - redisserver
+    networks:
+      - taskflow_network
+
+# Declaramos el volumen persistente para Mongo
+volumes:
+  mongo_data:
+
+# Declaramos una red virtual cerrada para que los 4 contenedores hablen entre sí
+networks:
+  taskflow_network:
+    driver: bridge
