@@ -1,0 +1,42 @@
+# ---------------------------------------------------
+# 1. DEPENDENCIAS (Node.js - Backend, Worker y Vue)
+# ---------------------------------------------------
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# ---------------------------------------------------
+# 2. VARIABLES DE ENTORNO Y SECRETOS (¡Seguridad!)
+# ---------------------------------------------------
+.env
+.env.local
+.env.*.local
+*.pem
+
+# ---------------------------------------------------
+# 3. VOLÚMENES Y DATOS DE DOCKER
+# ---------------------------------------------------
+# Evita subir toda la base de datos de MongoDB al repositorio
+mongo_data/
+*.rdb
+
+# ---------------------------------------------------
+# 4. ARCHIVOS DE COMPILACIÓN DEL FRONTEND (Vue/Vite)
+# ---------------------------------------------------
+dist/
+dist-ssr/
+*.tsbuildinfo
+
+# ---------------------------------------------------
+# 5. ARCHIVOS DEL SISTEMA OPERATIVO Y EDITORES
+# ---------------------------------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
