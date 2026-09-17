@@ -1,12 +1,13 @@
-require('dotenv').config();
-const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
-const cors = require('cors');
+import 'dotenv/config';
+import express from 'express';
+import http from 'http';
+import { Server } from 'socket.io';
+import cors from 'cors';
 
-const connectDB = require('./config/db');
-const { redisSubscriber } = require('./config/redis');
-const requestRoutes = require('./routes/requestRoutes');
+import connectDB from './config/db.js';
+import { redisSubscriber } from './config/redis.js';
+import requestRoutes from './routes/requestRoutes.js';
+import { notFound, errorHandler } from './middlewares/errorHandler.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -15,8 +16,6 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: { origin: '*' }
 });
-
-connectDB();
 
 app.use(cors());
 app.use(express.json());
@@ -30,6 +29,10 @@ app.use((req, res, next) => {
 // Definición de Rutas
 app.use('/api', requestRoutes);
 
+// Manejo de rutas inexistentes y errores
+app.use(notFound);
+app.use(errorHandler);
+
 // CONEXIÓN SOCKET.IO CON VUE
 io.on('connection', (socket) => {
   console.log('📡 Cliente Vue conectado:', socket.id);
@@ -38,17 +41,16 @@ io.on('connection', (socket) => {
 
 // ESCUCHAR AL WORKER MEDIANTE REDIS PUB/SUB
 // El worker publicará en el canal 'worker_events' y Express lo enviará a Vue
-redisSubscriber.subscribe('worker_events', (err, count) => {
+redisSubscriber.subscribe('worker_events', (err) => {
   if (err) console.error('Error suscribiéndose a eventos del Worker:', err);
-  else console.log(`✅ Suscrito al canal Redis 'worker_events'`);
+  else console.log("✅ Suscrito al canal Redis 'worker_events'");
 });
 
 redisSubscriber.on('message', (channel, message) => {
   if (channel === 'worker_events') {
     const data = JSON.parse(message);
-    // data.evento será 'solicitud-procesando', 'solicitud-respondida' o 'solicitud-error'
     console.log(`🔔 Evento del Worker recibido: ${data.evento}`);
-    
+
     // Express avisa al Frontend (Vue 3) en tiempo real
     io.emit(data.evento, data.solicitud);
     io.emit('monitor-actualizado'); // Dispara recarga de stats en Vue
@@ -56,6 +58,12 @@ redisSubscriber.on('message', (channel, message) => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  console.log(`🚀 Backend Express ejecutándose en el puerto ${PORT}`);
-});
+
+const start = async () => {
+  await connectDB();
+  server.listen(PORT, () => {
+    console.log(`🚀 Backend Express ejecutándose en el puerto ${PORT}`);
+  });
+};
+
+start();

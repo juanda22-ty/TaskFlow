@@ -27,4 +27,4 @@ const requestSchema = new mongoose.Schema({
   fechaProcesamiento: { type: Date, default: null }
 });
 
-module.exports = mongoose.model('Request', requestSchema);
+export default mongoose.model('Request', requestSchema);

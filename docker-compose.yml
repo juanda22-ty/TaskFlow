@@ -39,7 +39,19 @@ services:
     networks:
       - taskflow_network
 
-  # 4. WORKER (Proceso en segundo plano)
+  # 4. FRONTEND (Vue 3 + Nginx)
+  frontend:
+    build:
+      context: ./frontend
+    container_name: taskflow_frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - taskflow_network
+
+  # 5. WORKER (Proceso en segundo plano)
   worker:
     build:
       context: ./worker # Le dice a Docker que busque el Dockerfile en la carpeta worker
@@ -58,7 +70,7 @@ services:
 volumes:
   mongo_data:
 
-# Declaramos una red virtual cerrada para que los 4 contenedores hablen entre sí
+# Declaramos una red virtual cerrada para que los 5 contenedores hablen entre sí
 networks:
   taskflow_network:
     driver: bridge

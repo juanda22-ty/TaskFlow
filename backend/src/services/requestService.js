@@ -37,6 +37,10 @@ class RequestService {
     return await Request.findById(id);
   }
 
+  async getRequestResponse(id) {
+    return await Request.findById(id).select('respuesta estado mensajeError fechaProcesamiento');
+  }
+
   async updateRequest(id, data) {
     const updated = await Request.findByIdAndUpdate(id, data, { new: true });
     await redisClient.del('cache:solicitudes');
@@ -62,11 +66,11 @@ class RequestService {
 
     const result = {
       total: stats.reduce((acc, curr) => acc + curr.cantidad, 0),
-      pendientes: stats.find(s => s._id === 'PENDIENTE')?.cantidad || 0,
-      enCola: stats.find(s => s._id === 'EN COLA')?.cantidad || 0,
-      procesando: stats.find(s => s._id === 'PROCESANDO')?.cantidad || 0,
-      respondidas: stats.find(s => s._id === 'RESPONDIDA')?.cantidad || 0,
-      errores: stats.find(s => s._id === 'ERROR')?.cantidad || 0,
+      PENDIENTE: stats.find(s => s._id === 'PENDIENTE')?.cantidad || 0,
+      'EN COLA': stats.find(s => s._id === 'EN COLA')?.cantidad || 0,
+      PROCESANDO: stats.find(s => s._id === 'PROCESANDO')?.cantidad || 0,
+      RESPONDIDA: stats.find(s => s._id === 'RESPONDIDA')?.cantidad || 0,
+      ERROR: stats.find(s => s._id === 'ERROR')?.cantidad || 0,
     };
 
     await redisClient.set(cacheKey, JSON.stringify(result), 'EX', 30);

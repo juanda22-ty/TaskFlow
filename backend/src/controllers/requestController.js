@@ -31,6 +31,21 @@ export const getById = async (req, res) => {
   }
 };
 
+export const getResponse = async (req, res) => {
+  try {
+    const request = await requestService.getRequestResponse(req.params.id);
+    if (!request) return res.status(404).json({ error: 'No encontrada' });
+    res.json({
+      estado: request.estado,
+      respuesta: request.respuesta,
+      mensajeError: request.mensajeError,
+      fechaProcesamiento: request.fechaProcesamiento,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const update = async (req, res) => {
   try {
     const request = await requestService.updateRequest(req.params.id, req.body);
