@@ -1,7 +1,6 @@
 <script setup>
-import { computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import { io } from 'socket.io-client' // <-- Importar Socket.IO
 import { useRequestStore } from '../store/requestStore'
 import BaseButton from '../components/Buttons/BaseButton.vue'
 import StatCard from '../components/StatCard.vue'
@@ -9,9 +8,6 @@ import StatusBadge from '../components/Status/StatusBadge.vue'
 import { formatDate } from '../utils/formatDate'
 
 const store = useRequestStore()
-
-// Conexión al backend (ajusta el puerto si es diferente)
-const socket = io('http://localhost:3000')
 
 const recentRequests = computed(() => {
   return [...store.requests]
@@ -24,41 +20,8 @@ const recentRequests = computed(() => {
 })
 
 onMounted(() => {
-  // 1. Carga inicial vía REST API
   store.fetchRequests()
   store.fetchStats()
-
-  // 2. Escuchar creación de nuevas solicitudes
-  socket.on('solicitud-encolada', (nuevaSolicitud) => {
-    // Si tu store tiene un método para agregar, úsalo. 
-    // Si no, volvemos a pedir la lista para mantener la sincronía.
-    store.fetchRequests() 
-    store.fetchStats()
-  })
-
-  // 3. Escuchar cambios de estado desde el Worker
-  const actualizarSolicitud = (solicitudActualizada) => {
-    // Lo ideal es mutar el estado en Pinia directamente:
-    // const index = store.requests.findIndex(s => s._id === solicitudActualizada._id)
-    // if (index !== -1) store.requests[index] = solicitudActualizada
-    
-    // O si prefieres mantenerlo simple y seguro:
-    store.fetchRequests()
-  }
-
-  socket.on('solicitud-procesando', actualizarSolicitud)
-  socket.on('solicitud-respondida', actualizarSolicitud)
-  socket.on('solicitud-error', actualizarSolicitud)
-
-  // 4. Escuchar actualización de estadísticas
-  socket.on('monitor-actualizado', () => {
-    store.fetchStats()
-  })
-})
-
-// Es vital desconectar el socket al salir de la vista para evitar fugas de memoria
-onUnmounted(() => {
-  socket.disconnect()
 })
 </script>
 
