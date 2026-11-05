@@ -6,6 +6,7 @@ import cors from 'cors';
 
 import connectDB from './config/db.js';
 import { redisSubscriber } from './config/redis.js';
+import { startWorker } from './services/workerService.js';
 import requestRoutes from './routes/requestRoutes.js';
 import { notFound, errorHandler } from './middlewares/errorHandler.js';
 
@@ -63,6 +64,7 @@ const start = async () => {
   await connectDB();
   server.listen(PORT, () => {
     console.log(`🚀 Backend Express ejecutándose en el puerto ${PORT}`);
+    void startWorker();
   });
 };
 
