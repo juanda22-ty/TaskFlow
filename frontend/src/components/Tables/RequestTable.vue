@@ -56,7 +56,8 @@ function requestId(req) {
   overflow-x: auto;
   background: $color-surface;
   border: 1px solid $color-border;
-  border-radius: 8px;
+  border-radius: 1rem;
+  box-shadow: 0 3px 12px rgba(24, 34, 67, 0.035);
 }
 
 .table {
@@ -65,17 +66,26 @@ function requestId(req) {
 
   th,
   td {
-    padding: 0.75rem 1rem;
+    padding: 0.9rem 1rem;
     text-align: left;
     border-bottom: 1px solid $color-border;
   }
 
   th {
-    background: $color-table-header;
-    font-size: 0.85rem;
+    background: #f7f8fc;
+    font-size: 0.72rem;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.07em;
     color: $color-text-muted;
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: #fafbff;
+    }
   }
 
   tbody tr:last-child td {
@@ -96,6 +106,13 @@ function requestId(req) {
   border: none;
   font-size: 0.9rem;
   cursor: pointer;
+  font-weight: 650;
+
+  &:hover {
+    color: $color-primary-dark;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 }
 
 @media (max-width: 640px) {
@@ -121,7 +138,8 @@ function requestId(req) {
     margin-bottom: 1rem;
     background: $color-surface;
     border: 1px solid $color-border;
-    border-radius: 8px;
+    border-radius: 0.9rem;
+    box-shadow: 0 3px 12px rgba(24, 34, 67, 0.035);
     padding: 0.5rem 1rem;
   }
 

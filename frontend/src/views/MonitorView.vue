@@ -110,6 +110,7 @@ onUnmounted(() => {
 
   p {
     color: $color-text-muted;
+    margin-top: 0.4rem;
   }
 }
 
@@ -122,32 +123,43 @@ onUnmounted(() => {
 .service-card {
   background: $color-surface;
   border: 1px solid $color-border;
-  border-radius: 8px;
-  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  padding: 1.1rem 1.2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
+  box-shadow: 0 3px 12px rgba(24, 34, 67, 0.035);
 }
 
 .service-card__name {
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .service-card__status {
   font-size: 0.85rem;
   font-weight: 600;
   white-space: nowrap;
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
 
   &--up {
     color: $color-success;
+    background: $status-green-bg;
   }
   &--down {
     color: $color-error;
+    background: $status-red-bg;
   }
   &--unknown {
     color: $color-text-muted;
+    background: $color-border-soft;
   }
+}
+
+.monitor > section > h3 {
+  font-size: 1.05rem;
 }
 
 .monitor__stats {
@@ -160,7 +172,8 @@ onUnmounted(() => {
 .alert--error {
   background: $status-red-bg;
   color: $status-red-text;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  border: 1px solid #fecaca;
+  border-radius: 0.75rem;
 }
 </style>

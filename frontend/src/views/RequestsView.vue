@@ -76,7 +76,7 @@ onMounted(() => store.fetchRequests())
 .requests {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.35rem;
 }
 
 .requests__header {
@@ -87,6 +87,7 @@ onMounted(() => store.fetchRequests())
 
   p {
     color: $color-text-muted;
+    margin-top: 0.4rem;
   }
 }
 
@@ -94,14 +95,28 @@ onMounted(() => store.fetchRequests())
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid $color-border;
+  border-radius: 1rem;
+  background: $color-surface;
+  box-shadow: 0 3px 12px rgba(24, 34, 67, 0.025);
 
   input,
   select {
-    padding: 0.6rem 0.75rem;
-    border: 1px solid $color-border-strong;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-family: inherit;
+    min-height: 2.65rem;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid $color-border;
+    border-radius: 0.7rem;
+    background: #fcfcfe;
+    color: $color-text;
+    font-size: 0.9rem;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.12);
+    }
   }
 
   input {
@@ -112,14 +127,19 @@ onMounted(() => store.fetchRequests())
 
 .requests__state {
   color: $color-text-muted;
-  padding: 1rem 0;
+  padding: 1.5rem;
+  border: 1px dashed $color-border-strong;
+  border-radius: 0.9rem;
+  background: rgba($color-surface, 0.7);
+  text-align: center;
 }
 
 .alert--error {
   background: $status-red-bg;
   color: $status-red-text;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  border: 1px solid #fecaca;
+  border-radius: 0.75rem;
 }
 
 @media (max-width: 640px) {

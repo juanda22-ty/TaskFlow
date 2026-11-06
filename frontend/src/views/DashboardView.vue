@@ -77,7 +77,7 @@ onMounted(() => {
 .dashboard {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.75rem;
 }
 
 .dashboard__header {
@@ -89,6 +89,7 @@ onMounted(() => {
 
   p {
     color: $color-text-muted;
+    margin-top: 0.4rem;
   }
 }
 
@@ -99,30 +100,45 @@ onMounted(() => {
 }
 
 .dashboard__recent {
+  padding: 1.35rem;
+  border: 1px solid $color-border;
+  border-radius: 1rem;
+  background: $color-surface;
+  box-shadow: 0 3px 12px rgba(24, 34, 67, 0.035);
+
   h3 {
-    margin-bottom: 1rem;
+    margin-bottom: 1.1rem;
+    font-size: 1.05rem;
   }
 }
 
 .dashboard__empty {
   color: $color-text-muted;
+  padding: 1.25rem 0;
+  text-align: center;
 }
 
 .recent-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.65rem;
 }
 
 .recent-list__item {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: $color-surface;
+  background: #fcfcfe;
   border: 1px solid $color-border;
-  border-radius: 8px;
-  padding: 0.9rem 1rem;
+  border-radius: 0.8rem;
+  padding: 0.85rem 0.9rem;
+  transition: border-color 0.16s ease, transform 0.16s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: $color-border-strong;
+  }
 }
 
 .recent-list__info {
@@ -147,7 +163,14 @@ onMounted(() => {
 
 .recent-list__link {
   color: $color-primary;
-  font-weight: 500;
+  font-weight: 650;
+  font-size: 0.88rem;
+
+  &:hover {
+    color: $color-primary-dark;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 }
 
 .alert--error {

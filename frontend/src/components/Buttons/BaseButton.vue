@@ -53,12 +53,19 @@ const isLink = computed(() => props.to != null)
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
+  min-height: 2.55rem;
+  padding: 0.58rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.7rem;
   font-size: 0.9rem;
+  font-weight: 650;
   cursor: pointer;
   text-decoration: none;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+
+  &:not(:disabled):hover {
+    transform: translateY(-1px);
+  }
 
   &:disabled {
     opacity: 0.6;
@@ -66,20 +73,30 @@ const isLink = computed(() => props.to != null)
   }
 
   &--primary {
-    background: $color-primary;
+    background: linear-gradient(135deg, $color-primary, $color-primary-dark);
     color: $color-primary-contrast;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.18);
+
+    &:not(:disabled):hover {
+      box-shadow: 0 7px 16px rgba(79, 70, 229, 0.25);
+    }
   }
 
   &--ghost {
-    background: transparent;
-    border: 1px solid $color-border-strong;
+    background: $color-surface;
+    border-color: $color-border-strong;
     color: $color-text-strong;
+
+    &:not(:disabled):hover {
+      background: $color-border-soft;
+    }
   }
 
   &--link {
     background: transparent;
     color: $color-primary;
     padding: 0;
+    min-height: auto;
   }
 }
 </style>

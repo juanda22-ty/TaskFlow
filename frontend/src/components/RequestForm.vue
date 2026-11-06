@@ -109,6 +109,11 @@ defineExpose({ reset })
   flex-direction: column;
   gap: 1.25rem;
   max-width: 640px;
+  padding: clamp(1.15rem, 3vw, 1.75rem);
+  border: 1px solid $color-border;
+  border-radius: 1rem;
+  background: $color-surface;
+  box-shadow: 0 5px 20px rgba(24, 34, 67, 0.04);
 }
 
 .field {
@@ -118,16 +123,21 @@ defineExpose({ reset })
 
   label {
     font-weight: 600;
+    font-size: 0.88rem;
   }
 
   input,
   select,
   textarea {
-    padding: 0.6rem 0.75rem;
+    width: 100%;
+    padding: 0.72rem 0.85rem;
     border: 1px solid $color-border-strong;
-    border-radius: 6px;
-    font-size: 1rem;
+    border-radius: 0.7rem;
+    background: #fcfcfe;
+    color: $color-text;
+    font-size: 0.92rem;
     font-family: inherit;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
   }
 
   input:focus,
@@ -135,6 +145,13 @@ defineExpose({ reset })
   textarea:focus {
     outline: none;
     border-color: $color-primary;
+    background: $color-surface;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.12);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 8rem;
   }
 }
 

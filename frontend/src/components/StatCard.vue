@@ -28,35 +28,43 @@ defineProps({
 .stat-card {
   background: $color-surface;
   border: 1px solid $color-border;
-  border-radius: 8px;
-  padding: 1.25rem;
+  border-radius: 1rem;
+  padding: 1.15rem 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.45rem;
+  box-shadow: 0 2px 8px rgba(24, 34, 67, 0.025);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(24, 34, 67, 0.07);
+  }
 
   &--yellow {
-    border-top: 4px solid $tone-yellow;
+    border-left: 3px solid $tone-yellow;
   }
   &--blue {
-    border-top: 4px solid $tone-blue;
+    border-left: 3px solid $tone-blue;
   }
   &--purple {
-    border-top: 4px solid $tone-purple;
+    border-left: 3px solid $tone-purple;
   }
   &--green {
-    border-top: 4px solid $tone-green;
+    border-left: 3px solid $tone-green;
   }
   &--red {
-    border-top: 4px solid $tone-red;
+    border-left: 3px solid $tone-red;
   }
   &--default {
-    border-top: 4px solid $tone-default;
+    border-left: 3px solid $tone-default;
   }
 }
 
 .stat-card__value {
-  font-size: 2rem;
+  font-size: clamp(1.65rem, 2.5vw, 2.1rem);
   font-weight: 700;
+  letter-spacing: -0.04em;
 }
 
 .stat-card__label {

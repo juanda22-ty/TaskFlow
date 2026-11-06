@@ -134,7 +134,12 @@ onMounted(loadRequest)
 .detail__back {
   a {
     color: $color-primary;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 0.9rem;
+
+    &:hover {
+      color: $color-primary-dark;
+    }
   }
 }
 
@@ -148,7 +153,8 @@ onMounted(loadRequest)
 
 .detail__created {
   color: $color-text-muted;
-  margin-top: 0.25rem;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
 }
 
 .detail__state {
@@ -158,11 +164,12 @@ onMounted(loadRequest)
 .card {
   background: $color-surface;
   border: 1px solid $color-border;
-  border-radius: 8px;
-  padding: 1.25rem;
+  border-radius: 1rem;
+  padding: clamp(1.1rem, 3vw, 1.5rem);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
+  box-shadow: 0 3px 12px rgba(24, 34, 67, 0.035);
 }
 
 .card__grid {
@@ -178,10 +185,11 @@ onMounted(loadRequest)
 }
 
 .card__label {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.08em;
   color: $color-text-muted;
+  font-weight: 700;
 }
 
 .card__value {
@@ -189,7 +197,8 @@ onMounted(loadRequest)
 }
 
 .card--waiting {
-  border-left: 4px solid $tone-blue;
+  border-left: 3px solid $tone-blue;
+  background: #fbfcff;
 
   h3 {
     font-size: 0.9rem;
@@ -199,13 +208,14 @@ onMounted(loadRequest)
 }
 
 .alert {
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
 }
 
 .alert--error {
   background: $status-red-bg;
   color: $status-red-text;
+  border: 1px solid #fecaca;
 
   p {
     margin-top: 0.25rem;
